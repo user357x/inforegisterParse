@@ -19,9 +19,6 @@ const otsings = [
 
 const harjumaa = { county : 1, name : 'harjumaa' };
 
-//https://www.inforegister.ee/otsing/OU/viljandimaa/polvamaa/ida-virumaa/tartumaa/jarvamaa/vorumaa/parnumaa/laane-virumaa/hiiumaa/
-//laanemaa/valgamaa/raplamaa/jogevamaa/saaremaa/polva
-
 const regions = [
     { county : 2, name : 'viljandimaa' },
     { county : 3, name : 'polvamaa' },
