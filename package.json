@@ -1,0 +1,27 @@
+{
+  "name": "inforegister",
+  "version": "1.0.0",
+  "description": "inforegister",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+
+  "dependencies": {
+    "pg": "6.1.5",
+    "pg-promise": "5.6.4",
+    "jsdom": "latest",
+    "superagent": "latest",
+    "winston": "latest"
+  },
+
+  "author": "",
+  "license": "ISC",
+
+
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/user357x/inforegisterParse.git"
+  }
+  
+}
