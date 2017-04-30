@@ -114,7 +114,7 @@ const getResult = (name, trs) => {
 
 }
 
-const parseRows = (document, fileName, cat) => {
+const parseRows = (document, file, region) => {
 
     const rows = document.querySelectorAll('.searchresult-row');
 
@@ -154,7 +154,11 @@ const parseRows = (document, fileName, cat) => {
 
             //console.log(trs.length);
 
-            yield db.orgs.insert(getResult(orgCard.querySelector('h1').textContent, trs));
+            yield db.orgs.insert(
+                getResult(orgCard.querySelector('h1').textContent, trs),
+                file,
+                region instanceof Array ? 'all' : region
+            );
         }
     }).catch(errorHandler);
 
@@ -176,7 +180,7 @@ module.exports = function* () {
 
         while(document) {
 
-            yield parseRows(document);
+            yield parseRows(document, urls[i].otsing, urls[i].region);
 
             region = urls[i].region instanceof Array ? urls[i].region.map(r => r.county).join('-') : urls[i].region.county;
 

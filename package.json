@@ -12,12 +12,12 @@
     "pg-promise": "5.6.4",
     "jsdom": "latest",
     "superagent": "latest",
-    "winston": "latest"
+    "winston": "latest",
+    "excel4node": "1.2.1"
   },
 
   "author": "",
   "license": "ISC",
-
 
   "repository": {
     "type": "git",
