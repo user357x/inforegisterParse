@@ -81,14 +81,21 @@ const request = (url, wrap) => new Promise((resolve, reject) => {
 });
 
 
-const getResult = (name, trs) => {
+const getResult = (orgCard) => {
 
     const result = {
-        name : name,
+        name : null,
         address : null,
         phone : null,
-        email : null
-    } 
+        email : null,
+        sphere : null
+    }
+
+    result.name = orgCard.querySelector('h1').textContent.trim();
+
+    result.sphere = orgCard.querySelector('#emtaktable a').textContent.trim();
+
+    const trs = orgCard.querySelectorAll('table')[3].querySelectorAll('tr');
 
     const keys = [
         { text : 'Juriidiline aadress', value : 'address' },
@@ -96,9 +103,11 @@ const getResult = (name, trs) => {
         { text : 'E-post', value : 'email' }
     ];
 
+    let text;
+
     for(let i = 0; i < trs.length; i++) {
 
-        let text = trs[i].querySelectorAll('td')[0].textContent.trim();
+        text = trs[i].querySelectorAll('td')[0].textContent.trim();
 
         //console.log(text);
 
@@ -118,7 +127,7 @@ const parseRows = (document, file, region) => {
 
     const rows = document.querySelectorAll('.searchresult-row');
 
-    let trs, tds, orgCard, tr, td, a, href, onclick, tables, table;
+    let trs, tds, orgCard, tr, td, a, href, onclick, tables, sphere;
 
     const urls = [].filter
         .call(rows, row => {
@@ -147,15 +156,9 @@ const parseRows = (document, file, region) => {
         for(let i = 0; i < urls.length; i++) {
 
             orgCard = yield request(urls[i]);
-
-            table = orgCard.querySelectorAll('table')[3];
-
-            trs = table.querySelectorAll('tr');
-
-            //console.log(trs.length);
-
+            
             yield db.orgs.insert(
-                getResult(orgCard.querySelector('h1').textContent, trs),
+                getResult(orgCard),
                 file,
                 region instanceof Array ? 'all' : region
             );
