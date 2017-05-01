@@ -81,7 +81,7 @@ const request = (url, wrap) => new Promise((resolve, reject) => {
 });
 
 
-const getResult = (orgCard) => {
+const getResult = (document) => {
 
     const result = {
         name : null,
@@ -91,11 +91,25 @@ const getResult = (orgCard) => {
         sphere : null
     }
 
-    result.name = orgCard.querySelector('h1').textContent.trim();
+    const h = document.querySelector('h1')
 
-    result.sphere = orgCard.querySelector('#emtaktable a').textContent.trim();
+    if(h) {
+        result.name = h.textContent.trim();
+    }
 
-    const trs = orgCard.querySelectorAll('table')[3].querySelectorAll('tr');
+    const a = document.querySelector('#emtaktable a');
+
+    if(a) {
+        result.sphere = a.textContent.trim();
+    }
+
+    const table = document.querySelectorAll('table')[3];
+
+    let trs = [];
+
+    if(table) {
+        trs = table.querySelectorAll('tr');
+    }
 
     const keys = [
         { text : 'Juriidiline aadress', value : 'address' },
