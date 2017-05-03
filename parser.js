@@ -41,12 +41,18 @@ const getUrls = () => {
 
     const result = [];
 
-    let region;
+    let region, isArr;
 
     otsings.forEach(otsing => {
-        [regions, harjumaa].forEach(reg => {
-            region = reg instanceof Array ? reg.map(r => r.name).join('/') : reg.name;
-            result.push({ 
+        [harjumaa, regions].forEach(reg => {
+
+            isArr = reg instanceof Array
+
+            if(otsing === 'OU' && isArr) return;
+
+            region = isArr ? reg.map(r => r.name).join('/') : reg.name;
+            
+            result.push({
                 value : `${baseUrl}otsing/${otsing}/${region}`, 
                 otsing : otsing,
                 region : reg
@@ -174,7 +180,7 @@ const parseRows = (document, file, region) => {
             yield db.orgs.insert(
                 getResult(orgCard),
                 file,
-                region instanceof Array ? 'all' : region
+                region instanceof Array ? 'all' : region.name
             );
         }
     }).catch(errorHandler);
