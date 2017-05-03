@@ -44,14 +44,14 @@ const getUrls = () => {
     let region, isArr;
 
     otsings.forEach(otsing => {
-        [harjumaa, regions].forEach(reg => {
+        [regions, harjumaa].forEach(reg => {
 
             isArr = reg instanceof Array
 
             if(otsing === 'OU' && isArr) return;
 
             region = isArr ? reg.map(r => r.name).join('/') : reg.name;
-            
+
             result.push({
                 value : `${baseUrl}otsing/${otsing}/${region}`, 
                 otsing : otsing,
@@ -189,7 +189,7 @@ const parseRows = (document, file, region) => {
 
 module.exports = function* () {
 
-    yield db.none('TRUNCATE TABLE public.orgs');
+    //yield db.none('TRUNCATE TABLE public.orgs');
 
     let document, region, rows, offset, url;
 
