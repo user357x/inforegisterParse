@@ -7,8 +7,12 @@ const xl = require('excel4node');
  
 const wb = new xl.Workbook();
 
-const wsAll = wb.addWorksheet('all');
-const wsHarjumaa = wb.addWorksheet('harjumaa');
+//const wsAll = wb.addWorksheet('all');
+//const wsHarjumaa = wb.addWorksheet('harjumaa');
+
+
+//let wsAll = wb.addWorksheet('all');
+//let wsHarjumaa = wb.addWorksheet('harjumaa');
 
 const style = wb.createStyle({
     font: {
@@ -19,19 +23,15 @@ const style = wb.createStyle({
 
 db.task(function* () {
 
+	let data, j = 2;
+
+	let wsAll = wb.addWorksheet('all');
+
     wsAll.cell(1,1).string('name').style(style);
 	wsAll.cell(1,2).string('phone').style(style);
 	wsAll.cell(1,3).string('email').style(style);
 	wsAll.cell(1,4).string('address').style(style);
 	wsAll.cell(1,5).string('sphere').style(style);
-
-	wsHarjumaa.cell(1,1).string('name').style(style);
-	wsHarjumaa.cell(1,2).string('phone').style(style);
-	wsHarjumaa.cell(1,3).string('email').style(style);
-	wsHarjumaa.cell(1,4).string('address').style(style);
-	wsHarjumaa.cell(1,5).string('sphere').style(style);
-
-	let data, j = 2;
 
 	data = yield db.orgs.getByRegion('OU', 'all');
 
@@ -45,6 +45,15 @@ db.task(function* () {
 		wsAll.cell(j, 5).string(org.body.sphere ? org.body.sphere : '');
 	});
 
+
+	/*let wsHarjumaa = wb.addWorksheet('harjumaa');
+
+	wsHarjumaa.cell(1,1).string('name').style(style);
+	wsHarjumaa.cell(1,2).string('phone').style(style);
+	wsHarjumaa.cell(1,3).string('email').style(style);
+	wsHarjumaa.cell(1,4).string('address').style(style);
+	wsHarjumaa.cell(1,5).string('sphere').style(style);
+
 	data = yield db.orgs.getByRegion('OU', 'harjumaa');
 
 	data.forEach((org, i) => {
@@ -55,7 +64,7 @@ db.task(function* () {
 		wsHarjumaa.cell(j, 3).string(org.body.email ? org.body.email : '');
 		wsHarjumaa.cell(j, 4).string(org.body.address ? org.body.address : '');
 		wsHarjumaa.cell(j, 5).string(org.body.sphere ? org.body.sphere : '');
-	});
+	});*/
 
 	wb.write('./xls/OU.xlsx');
 
