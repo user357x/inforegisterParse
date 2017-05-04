@@ -25,6 +25,7 @@ db.task(function* () {
 
 	let data, j = 2;
 
+	/*
 	let wsAll = wb.addWorksheet('all');
 
     wsAll.cell(1,1).string('name').style(style);
@@ -44,9 +45,10 @@ db.task(function* () {
 		wsAll.cell(j, 4).string(org.body.address ? org.body.address : '');
 		wsAll.cell(j, 5).string(org.body.sphere ? org.body.sphere : '');
 	});
+	*/
 
 
-	/*let wsHarjumaa = wb.addWorksheet('harjumaa');
+	let wsHarjumaa = wb.addWorksheet('harjumaa');
 
 	wsHarjumaa.cell(1,1).string('name').style(style);
 	wsHarjumaa.cell(1,2).string('phone').style(style);
@@ -64,7 +66,7 @@ db.task(function* () {
 		wsHarjumaa.cell(j, 3).string(org.body.email ? org.body.email : '');
 		wsHarjumaa.cell(j, 4).string(org.body.address ? org.body.address : '');
 		wsHarjumaa.cell(j, 5).string(org.body.sphere ? org.body.sphere : '');
-	});*/
+	});
 
 	wb.write('./xls/OU.xlsx');
 
