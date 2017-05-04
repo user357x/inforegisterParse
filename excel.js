@@ -50,11 +50,11 @@ db.task(function* () {
 	data.forEach((org, i) => {
 		j = i + 2;
 		//console.log(j);
-		wsAll.cell(j, 1).string(org.body.name ? org.body.name : '');
-		wsAll.cell(j, 2).string(org.body.phone ? org.body.phone : '');
-		wsAll.cell(j, 3).string(org.body.email ? org.body.email : '');
-		wsAll.cell(j, 4).string(org.body.address ? org.body.address : '');
-		wsAll.cell(j, 5).string(org.body.sphere ? org.body.sphere : '');
+		wsHarjumaa.cell(j, 1).string(org.body.name ? org.body.name : '');
+		wsHarjumaa.cell(j, 2).string(org.body.phone ? org.body.phone : '');
+		wsHarjumaa.cell(j, 3).string(org.body.email ? org.body.email : '');
+		wsHarjumaa.cell(j, 4).string(org.body.address ? org.body.address : '');
+		wsHarjumaa.cell(j, 5).string(org.body.sphere ? org.body.sphere : '');
 	});
 
 	wb.write('./xls/OU.xlsx');
