@@ -68,6 +68,6 @@ db.task(function* () {
 		wsHarjumaa.cell(j, 5).string(org.body.sphere ? org.body.sphere : '');
 	});
 
-	wb.write('./xls/OU.xlsx');
+	wb.write('./xls/OU/harjumaa.xlsx');
 
 }).catch(console.error);
