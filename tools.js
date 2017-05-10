@@ -169,9 +169,9 @@ const parseRows = (document, file, region, offset) => {
             return href
         });
 
-    if(!urls || !urls.length) return null;
+    if(!urls || !urls.length) return;
 
-    const task = function* () {
+    return db.task(function* () {
         for(let i = 0; i < urls.length; i++) {
 
             orgCard = yield request(urls[i]);
@@ -183,9 +183,7 @@ const parseRows = (document, file, region, offset) => {
                 offset
             );
         }
-    };
-
-    return task;
+    }).catch(errorHandler);
 };
 
 exports.getUrl = getUrl;

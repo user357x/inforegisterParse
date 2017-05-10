@@ -25,11 +25,7 @@ module.exports = function* () {
 
     while(document) {
 
-        task = parseRows(document, position.otsing, position.region, offset);
-
-        if(task) {
-            yield db.task(task);
-        }
+        yield parseRows(document, position.otsing, position.region, offset);
 
         offset += 20;
 
