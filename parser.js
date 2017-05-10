@@ -19,10 +19,9 @@ module.exports = function* () {
     const position = yield db.task(getLastPosition(0));
 
     url = position.url;
-
-    document = yield request(url, position.offset > 0 ? wrap : null);
-
     offset = position.offset;
+
+    document = yield request(url, offset > 0 ? wrap : null);
 
     while(document) {
 
