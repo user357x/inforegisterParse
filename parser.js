@@ -37,28 +37,64 @@ const regions = [
     { county : 16, name : 'polva' }
 ];
 
-const getUrls = () => {
+const positions = [
+    { name : 'juriidiline aadress', value : 'address' },
+    { name : 'telefon', value : 'phone' },
+    { name : 'e-post', value : 'email' }
+];
 
-    const result = [];
+const getUrl = (otsing, region, offset) => {
 
-    let region, isArr;
+    let result, reg;
 
-    otsings.forEach(otsing => {
-        [regions, harjumaa].forEach(reg => {
+    let isArr = region instanceof Array;
 
-            isArr = reg instanceof Array
+    if(offset !== undefined) {
+        reg = isArr ? region.map(r => r.county).join('-') : region.county;
+        result = `${baseUrl}index.php?` +
+            `option=com_krdx_search&` +
+            `view=ajax&` +
+            `data=searchResults&` +
+            `engine=quick&` +
+            `q=${otsing}&` +
+            `selCounty=${reg}&` +
+            `offset=${offset}&` +
+            `tmpl=raw`;
+    }
+    else {
+        reg = isArr ? region.map(r => r.name).join('/') : region.name;
+        result = `${baseUrl}otsing/${otsing}/${reg}`;
+    }
 
-            if(otsing === 'OU' && isArr) return;
+    return result;
+};
 
-            region = isArr ? reg.map(r => r.name).join('/') : reg.name;
+const getLastPosition = (i) => function* () {
 
-            result.push({
-                value : `${baseUrl}otsing/${otsing}/${region}`, 
-                otsing : otsing,
-                region : reg
-            });
-        });
-    });
+    const result = {};
+
+    let region = harjumaa;
+    let otsing = otsings[i];
+
+    const position = yield db.orgs.getLastPosition();
+
+    if(!position) {
+
+        result.url = getUrl(otsing, region);
+
+        result.offset = 0;
+    
+    }
+    else {
+
+        result.url = getUrl(otsing, region, position.offset);
+
+        result.offset = position.offset;
+
+    }
+
+    result.region = region;
+    result.otsing = otsing;
 
     return result;
 };
@@ -117,23 +153,15 @@ const getResult = (document) => {
         trs = table.querySelectorAll('tr');
     }
 
-    const keys = [
-        { text : 'Juriidiline aadress', value : 'address' },
-        { text : 'Telefon', value : 'phone' },
-        { text : 'E-post', value : 'email' }
-    ];
-
-    let text;
+    let name;
 
     for(let i = 0; i < trs.length; i++) {
 
-        text = trs[i].querySelectorAll('td')[0].textContent.trim();
+        name = trs[i].querySelectorAll('td')[0].textContent.trim().toLowerCase();
 
-        //console.log(text);
-
-        keys.forEach(key => {
-            if(key.text === text) {
-                result[key.value] = trs[i].querySelectorAll('td')[1].textContent.trim();
+        positions.forEach(position => {
+            if(position.name === name) {
+                result[position.value] = trs[i].querySelectorAll('td')[1].textContent.trim();
             }
         })
 
@@ -143,11 +171,11 @@ const getResult = (document) => {
 
 }
 
-const parseRows = (document, file, region) => {
+const parseRows = (document, file, region, offset) => {
 
     const rows = document.querySelectorAll('.searchresult-row');
 
-    let trs, tds, orgCard, tr, td, a, href, onclick, tables, sphere;
+    let orgCard, td, a, href, onclick, tables;
 
     const urls = [].filter
         .call(rows, row => {
@@ -172,7 +200,7 @@ const parseRows = (document, file, region) => {
 
     if(!urls || !urls.length) return;
 
-    return db.task(function* () {
+    return function* () {
         for(let i = 0; i < urls.length; i++) {
 
             orgCard = yield request(urls[i]);
@@ -180,10 +208,11 @@ const parseRows = (document, file, region) => {
             yield db.orgs.insert(
                 getResult(orgCard),
                 file,
-                region instanceof Array ? 'all' : region.name
+                region instanceof Array ? 'all' : region.name,
+                offset
             );
         }
-    }).catch(errorHandler);
+    };
 
 };
 
@@ -193,37 +222,27 @@ module.exports = function* () {
 
     let document, region, rows, offset, url;
 
-    const urls = getUrls();
+    let i = 0;
 
-    for(let i = 0; i < urls.length; i++) {
+    const position = yield db.task(getLastPosition(i));
 
-        document = yield request(urls[i].value);
+    url = position.url;
 
-        offset = 20;
+    document = yield request(url);
 
-        while(document) {
+    offset = position.offset;
 
-            yield parseRows(document, urls[i].otsing, urls[i].region);
+    while(document) {
 
-            region = urls[i].region instanceof Array ? urls[i].region.map(r => r.county).join('-') : urls[i].region.county;
+        yield db.task(parseRows(document, position.otsing, position.region, offset));
 
-            url = `${baseUrl}index.php?` +
-                `option=com_krdx_search&` +
-                `view=ajax&` +
-                `data=searchResults&` +
-                `engine=quick&` +
-                `q=${urls[i].otsing}&` +
-                `selCounty=${region}&` +
-                `offset=${offset}&` +
-                `tmpl=raw`;
+        offset += 20;
 
-            offset += 20;
+        url = getUrl(position.otsing, position.region, offset);
 
-            document = yield request(url, ['<table>', '</table>']);
+        document = yield request(url, ['<table>', '</table>']);
 
-            //console.log(document);
-
-        }
+        //console.log(document);
 
     }
 
