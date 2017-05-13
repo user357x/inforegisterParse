@@ -66,7 +66,7 @@ db.task(function* () {
  			order by id 
  			offset $3 
  			limit $4`, 
- 			['OU', 'harjumaa', 0, 50000]
+ 			['OU', 'harjumaa', 50000, 55900]
 		)
 
 	data.forEach((org, i) => {
@@ -79,6 +79,6 @@ db.task(function* () {
 		wsHarjumaa.cell(j, 5).string(org.body.sphere ? org.body.sphere : '');
 	});
 
-	wb.write('./xls/OU/harjumaa.xlsx');
+	wb.write('./xls/OU/harjumaa1.xlsx');
 
 }).catch(console.error);
