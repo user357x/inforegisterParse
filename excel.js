@@ -24,7 +24,7 @@ const style = wb.createStyle({
 db.task(function* () {
 
 	let data, j = 2;
-	
+
 
 	/*
 	let wsAll = wb.addWorksheet('all');
@@ -57,7 +57,17 @@ db.task(function* () {
 	wsHarjumaa.cell(1,4).string('address').style(style);
 	wsHarjumaa.cell(1,5).string('sphere').style(style);
 
-	data = yield db.orgs.getByRegion('OU', 'harjumaa');
+	//data = yield db.orgs.getByRegion('OU', 'harjumaa');
+	data = yield db.any(
+ 			`select * 
+ 			from public.orgs 
+ 			where file = $1 and 
+ 			region = $2 
+ 			order by id 
+ 			offset $3 
+ 			limit $4`, 
+ 			['OU', 'harjumaa', 0, 50000]
+		)
 
 	data.forEach((org, i) => {
 		j = i + 2;
