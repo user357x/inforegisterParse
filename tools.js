@@ -116,8 +116,8 @@ const getLastPosition = (i) => function* () {
 
     const result = {};
 
-    let region = harjumaa;
     let otsing = otsings[i];
+    let region = regions;
 
     const position = yield db.orgs.getLastPosition();
 
@@ -136,8 +136,8 @@ const getLastPosition = (i) => function* () {
 
     }
 
-    result.region = region;
     result.otsing = otsing;
+    result.region = region;
 
     return result;
 };
