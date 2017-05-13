@@ -119,7 +119,7 @@ const getLastPosition = (i) => function* () {
     let otsing = otsings[i];
     let region = regions;
 
-    const position = yield db.orgs.getLastPosition('OU', 'all');
+    const position = yield db.orgs.getLastPosition(otsing, region instanceof Array ? 'all' : region.name);
 
     if(!position) {
 
