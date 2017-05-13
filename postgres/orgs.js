@@ -10,8 +10,15 @@ module.exports = db => {
  			`select * from public.orgs where file = $1 and region = $2`, 
  			[file, region]
 		),
-		getLastPosition : () => db.oneOrNone(
-			`select * from public.orgs order by id desc limit 1`
+		getLastPosition : (file, region) => db.oneOrNone(
+			`select * 
+			from public.orgs 
+			where file = $1 and 
+			region = $2
+			order by id 
+			desc 
+			limit 1`,
+			[file, region]
 		)
 	};
 } 
