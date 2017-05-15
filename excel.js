@@ -1,7 +1,7 @@
 'use strict';
 
-global.config = require(`${__dirname}/config`);
-global.db = require(`./postgres`)(config.postgres);
+global.config = require(`${__dirname}/./config`);
+global.db = require(`${__dirname}/./postgres`)(config.postgres);
 
 const xl = require('excel4node');
  
@@ -9,7 +9,6 @@ const wb = new xl.Workbook();
 
 //const wsAll = wb.addWorksheet('all');
 //const wsHarjumaa = wb.addWorksheet('harjumaa');
-
 
 //let wsAll = wb.addWorksheet('all');
 //let wsHarjumaa = wb.addWorksheet('harjumaa');
@@ -25,8 +24,6 @@ db.task(function* () {
 
 	let data, j = 2;
 
-
-	/*
 	let wsAll = wb.addWorksheet('all');
 
     wsAll.cell(1,1).string('name').style(style);
@@ -46,9 +43,9 @@ db.task(function* () {
 		wsAll.cell(j, 4).string(org.body.address ? org.body.address : '');
 		wsAll.cell(j, 5).string(org.body.sphere ? org.body.sphere : '');
 	});
-	*/
+	
 
-
+	/*
 	let wsHarjumaa = wb.addWorksheet('harjumaa');
 
 	wsHarjumaa.cell(1,1).string('name').style(style);
@@ -66,7 +63,7 @@ db.task(function* () {
  			order by id 
  			offset $3 
  			limit $4`, 
- 			['OU', 'harjumaa', 50000, 55900]
+ 			['OU', 'all', 0, 57130]
 		)
 
 	data.forEach((org, i) => {
@@ -78,7 +75,8 @@ db.task(function* () {
 		wsHarjumaa.cell(j, 4).string(org.body.address ? org.body.address : '');
 		wsHarjumaa.cell(j, 5).string(org.body.sphere ? org.body.sphere : '');
 	});
+	*/
 
-	wb.write('./xls/OU/harjumaa1.xlsx');
+	wb.write('./xls/OU/all.xlsx');
 
 }).catch(console.error);
