@@ -21,7 +21,7 @@ db.task(function* () {
 
 	let data, j = 2;
 
-	let ws = wb.addWorksheet(harjumaa);
+	let ws = wb.addWorksheet(all);
 
     ws.cell(1,1).string('name').style(style);
 	ws.cell(1,2).string('phone').style(style);
@@ -29,7 +29,7 @@ db.task(function* () {
 	ws.cell(1,4).string('address').style(style);
 	ws.cell(1,5).string('sphere').style(style);
 
-	data = yield db.orgs.getByRegion('TU', harjumaa);
+	data = yield db.orgs.getByRegion('TU', all);
 
 	data.forEach((org, i) => {
 		j = i + 2;
@@ -74,6 +74,6 @@ db.task(function* () {
 	});
 	*/
 
-	wb.write('./xls/TU/harjumaa.xlsx');
+	wb.write('./xls/TU/all.xlsx');
 
 }).catch(console.error);
