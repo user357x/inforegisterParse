@@ -95,15 +95,21 @@ const getResult = (document) => {
         trs = table.querySelectorAll('tr');
     }
 
-    let name;
+    let name, value;
 
     for(let i = 0; i < trs.length; i++) {
 
         name = trs[i].querySelectorAll('td')[0].textContent.trim().toLowerCase();
 
         positions.forEach(position => {
+            value = trs[i].querySelectorAll('td')[1].textContent.trim();
             if(position.name === name) {
-                result[position.value] = trs[i].querySelectorAll('td')[1].textContent.trim();
+                if(position.value === 'email') {
+                    result[position.value] = value.split(', ').filter(email => email.length > 0);
+                }
+                else {
+                    result[position.value] = value;
+                }
             }
         })
 
