@@ -6,7 +6,7 @@ global.db = require(`${__dirname}/./postgres`)(config.postgres);
 const xl = require('excel4node');
 
 let otsing = 'OU';
-let region = 'harjumaa';
+let region = 'all';
 
 db.task(function* () {
 
