@@ -38,6 +38,7 @@ db.task(function* () {
 				ws.cell(1,3).string('email').style(style);
 				ws.cell(1,4).string('address').style(style);
 				ws.cell(1,5).string('sphere').style(style);
+				j = 2;
 				
 			}
 
