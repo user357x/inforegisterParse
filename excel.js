@@ -15,9 +15,6 @@ db.task(function* () {
 	const data = yield db.orgs.getByRegion(otsing, region);
 	
 	data.forEach((org, i) => {
-		
-		//console.log(org.body.email);
-		//console.log(typeof org.body.email.split);
 
 		emails = org.body.email ? org.body.email.split(', ').filter(email => email.length > 0) : [];
 
