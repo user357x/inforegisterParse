@@ -34,7 +34,7 @@ db.task(function* () {
 
 			if(count % 50000 === 0) {
 
-				if(count % 50000 === 0 && count > 0) {
+				if(count > 0) {
 					wb.write(`./xls/${otsing}/${region}/${fileCount}.xlsx`);
 					fileCount++;
 				}
@@ -58,13 +58,7 @@ db.task(function* () {
 				j = 2;
 
 			}
-			else if(i + 1 === data.length && e + 1 === emails.length) {
-
-				wb.write(`./xls/${otsing}/${region}/${fileCount}.xlsx`);
-				return;
-				
-			}
-
+			
 			ws.cell(j, 1).string(org.body.name ? org.body.name : '');
 			ws.cell(j, 2).string(org.body.phone ? org.body.phone : '');
 			ws.cell(j, 3).string(email);
@@ -73,6 +67,12 @@ db.task(function* () {
 
 			j++;
 			count++;
+
+			if(i + 1 === data.length && e + 1 === emails.length) {
+				
+				wb.write(`./xls/${otsing}/${region}/${fileCount}.xlsx`);
+				
+			}
 
 		});
 
