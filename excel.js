@@ -32,9 +32,9 @@ db.task(function* () {
 
 		emails.forEach((email, e) => {
 
-			if(count === 0 || count % 50000 === 0) {
+			if(count % 50000 === 0) {
 
-				if(count % 50000 === 0 || (i + 1 === data.length && e + 1 === emails.length)) {
+				if(count > 0 || (i + 1 === data.length && e + 1 === emails.length)) {
 
 					wb.write(`./xls/${otsing}/${region}/${fileCount}.xlsx`);
 					fileCount++;
@@ -60,18 +60,17 @@ db.task(function* () {
 				j = 2;
 
 			}
-			else {
 
-				ws.cell(j, 1).string(org.body.name ? org.body.name : '');
-				ws.cell(j, 2).string(org.body.phone ? org.body.phone : '');
-				ws.cell(j, 3).string(email);
-				ws.cell(j, 4).string(org.body.address ? org.body.address : '');
-				ws.cell(j, 5).string(org.body.sphere ? org.body.sphere : '');
+			ws.cell(j, 1).string(org.body.name ? org.body.name : '');
+			ws.cell(j, 2).string(org.body.phone ? org.body.phone : '');
+			ws.cell(j, 3).string(email);
+			ws.cell(j, 4).string(org.body.address ? org.body.address : '');
+			ws.cell(j, 5).string(org.body.sphere ? org.body.sphere : '');
 
-				j++;
+			j++;
 
-			}
-			
+			count++;
+
 		});
 
 	});
