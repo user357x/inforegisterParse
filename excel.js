@@ -34,6 +34,17 @@ db.task(function* () {
 
 			if(count % 50000 === 0) {
 
+				if((count % 50000 === 0 && count > 0) || (i + 1 === data.length && e + 1 === emails.length)) {
+
+					wb.write(`./xls/${otsing}/${region}/${fileCount}.xlsx`);
+					fileCount++;
+
+					if(i + 1 === data.length && e + 1 === emails.length) {
+						return;
+					}
+
+				}
+
 				wb = new xl.Workbook();
 
 				style = wb.createStyle({
@@ -62,13 +73,6 @@ db.task(function* () {
 
 			j++;
 			count++;
-
-			if((count % 50000 === 0 && count > 0) || (i + 1 === data.length && e + 1 === emails.length)) {
-
-				wb.write(`./xls/${otsing}/${region}/${fileCount}.xlsx`);
-				fileCount++;
-
-			}
 
 		});
 
