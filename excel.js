@@ -17,8 +17,8 @@ const otsings = [
 let all = 'all';
 let harjumaa = 'harjumaa';
 
-let otsing = otsings[0];
-let region = all;
+let otsing = otsings[1];
+let region = harjumaa;
 
 db.task(function* () {
 
