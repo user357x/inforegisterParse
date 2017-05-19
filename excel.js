@@ -6,7 +6,7 @@ global.db = require(`${__dirname}/./postgres`)(config.postgres);
 const xl = require('excel4node');
 
 let otsing = 'OU';
-let region = 'all';
+let region = 'harjumaa';
 
 db.task(function* () {
 
@@ -42,12 +42,13 @@ db.task(function* () {
 				
 			}
 
-			j++;
 			ws.cell(j, 1).string(org.body.name ? org.body.name : '');
 			ws.cell(j, 2).string(org.body.phone ? org.body.phone : '');
 			ws.cell(j, 3).string(email);
 			ws.cell(j, 4).string(org.body.address ? org.body.address : '');
 			ws.cell(j, 5).string(org.body.sphere ? org.body.sphere : '');
+
+			j++;
 
 			if(count % 50000 === 0 || (i + 1 === data.length && e + 1 === emails.length)) {
 
