@@ -77,5 +77,7 @@ db.task(function* () {
 		});
 
 	});
+
+	console.log(count);
 	
 }).catch(console.error);
