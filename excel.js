@@ -29,7 +29,7 @@ db.task(function* () {
 	data.forEach((org, i) => {
 
 		//emails = org.body.email ? org.body.email.split(', ').filter(email => email.length > 0) : [];
-		emails = org.body.email;
+		emails = org.body.email ? org.body.email : [];
 
 		emails.forEach((email, e) => {
 

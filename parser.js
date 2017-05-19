@@ -16,7 +16,7 @@ module.exports = function* () {
 
     let wrap = ['<table>', '</table>'];
 
-    const position = yield db.task(getLastPosition(2));
+    const position = yield db.task(getLastPosition(3));
 
     url = position.url;
     offset = position.offset;
