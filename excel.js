@@ -34,7 +34,7 @@ db.task(function* () {
 
 			if(count === 0 || count % 50000 === 0) {
 
-				if(count % 50000 === 0) {
+				if(count % 50000 === 0 || (i + 1 === data.length && e + 1 === emails.length)) {
 
 					wb.write(`./xls/${otsing}/${region}/${fileCount}.xlsx`);
 					fileCount++;
@@ -57,7 +57,6 @@ db.task(function* () {
 				ws.cell(1,3).string('email').style(style);
 				ws.cell(1,4).string('address').style(style);
 				ws.cell(1,5).string('sphere').style(style);
-
 				j = 2;
 
 			}
@@ -72,7 +71,7 @@ db.task(function* () {
 				j++;
 
 			}
-
+			
 		});
 
 	});
