@@ -17,7 +17,7 @@ const otsings = [
 let all = 'all';
 let harjumaa = 'harjumaa';
 
-let otsing = otsings[1];
+let otsing = otsings[2];
 let region = harjumaa;
 
 db.task(function* () {
@@ -28,7 +28,8 @@ db.task(function* () {
 	
 	data.forEach((org, i) => {
 
-		emails = org.body.email ? org.body.email.split(', ').filter(email => email.length > 0) : [];
+		//emails = org.body.email ? org.body.email.split(', ').filter(email => email.length > 0) : [];
+		emails = org.body.email;
 
 		emails.forEach((email, e) => {
 
