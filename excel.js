@@ -14,8 +14,8 @@ const otsings = [
     'ku'
 ];
 
-let all = 'all';
 let harjumaa = 'harjumaa';
+let all = 'all';
 
 let otsing = otsings[2];
 let region = harjumaa;
