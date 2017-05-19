@@ -22,7 +22,7 @@ let region = harjumaa;
 
 db.task(function* () {
 
-	let wb, ws, emails, style, j, count = 0, fileCount = 1;
+	let wb, ws, emails, style, count = 0, j, fileCount = 1;
 
 	const data = yield db.orgs.getByRegion(otsing, region);
 	
@@ -32,7 +32,7 @@ db.task(function* () {
 
 		emails.forEach((email, e) => {
 
-			if(count % 50000 === 0) {
+			if(count === 0 || count % 50000 === 0) {
 
 				wb = new xl.Workbook();
 
@@ -45,28 +45,28 @@ db.task(function* () {
 
 				ws = wb.addWorksheet("orgs");
 
-			    ws.cell(1,1).string('name').style(style);
-				ws.cell(1,2).string('phone').style(style);
-				ws.cell(1,3).string('email').style(style);
-				ws.cell(1,4).string('address').style(style);
-				ws.cell(1,5).string('sphere').style(style);
-				j = 2;
+				j = 1;
 
+			    ws.cell(j, 1).string('name').style(style);
+				ws.cell(j, 2).string('phone').style(style);
+				ws.cell(j, 3).string('email').style(style);
+				ws.cell(j, 4).string('address').style(style);
+				ws.cell(j, 5).string('sphere').style(style);
+				
 			}
-			
+
+			j++;
 			ws.cell(j, 1).string(org.body.name ? org.body.name : '');
 			ws.cell(j, 2).string(org.body.phone ? org.body.phone : '');
 			ws.cell(j, 3).string(email);
 			ws.cell(j, 4).string(org.body.address ? org.body.address : '');
 			ws.cell(j, 5).string(org.body.sphere ? org.body.sphere : '');
 
-			j++;
-			
-			if((count % 50000 === 0 && count > 0) || (i + 1 === data.length && e + 1 === emails.length)) {
+			if(count % 50000 === 0 || (i + 1 === data.length && e + 1 === emails.length)) {
 
 				wb.write(`./xls/${otsing}/${region}/${fileCount}.xlsx`);
 				fileCount++;
-				
+
 			}
 
 			count++;
@@ -74,6 +74,7 @@ db.task(function* () {
 		});
 
 	});
+
 
 	console.log(count);
 	
