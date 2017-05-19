@@ -22,6 +22,12 @@ db.task(function* () {
 
 			if(count === 0 || count % 50000 === 0) {
 
+				if(count % 50000 === 0 || (i + 1 === data.length && e + 1 === emails.length)) {
+					wb.write(`./xls/${otsing}/${region}/${fileCount}.xlsx`);
+					fileCount++;
+					count = 0;
+				}
+
 				wb = new xl.Workbook();
 
 				style = wb.createStyle({
@@ -39,7 +45,12 @@ db.task(function* () {
 				ws.cell(1,4).string('address').style(style);
 				ws.cell(1,5).string('sphere').style(style);
 				j = 2;
-				
+
+			}
+			else {
+
+				count++;
+
 			}
 
 			ws.cell(j, 1).string(org.body.name ? org.body.name : '');
@@ -49,15 +60,6 @@ db.task(function* () {
 			ws.cell(j, 5).string(org.body.sphere ? org.body.sphere : '');
 
 			j++;
-
-			if(count % 50000 === 0 || (i + 1 === data.length && e + 1 === emails.length)) {
-
-				wb.write(`./xls/${otsing}/${region}/${fileCount}.xlsx`);
-				fileCount++;
-
-			}
-
-			count++;
 
 		});
 
