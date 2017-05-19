@@ -34,15 +34,9 @@ db.task(function* () {
 
 			if(count % 50000 === 0) {
 
-				if((count % 50000 === 0 && count > 0) || (i + 1 === data.length && e + 1 === emails.length)) {
-
+				if(count % 50000 === 0 && count > 0) {
 					wb.write(`./xls/${otsing}/${region}/${fileCount}.xlsx`);
 					fileCount++;
-
-					if(i + 1 === data.length && e + 1 === emails.length) {
-						return;
-					}
-
 				}
 
 				wb = new xl.Workbook();
@@ -63,6 +57,12 @@ db.task(function* () {
 				ws.cell(1,5).string('sphere').style(style);
 				j = 2;
 
+			}
+			else if(i + 1 === data.length && e + 1 === emails.length) {
+
+				wb.write(`./xls/${otsing}/${region}/${fileCount}.xlsx`);
+				return;
+				
 			}
 
 			ws.cell(j, 1).string(org.body.name ? org.body.name : '');
