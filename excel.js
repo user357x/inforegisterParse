@@ -18,7 +18,7 @@ let harjumaa = 'harjumaa';
 let all = 'all';
 
 let otsing = otsings[3];
-let region = harjumaa;
+let region = all;
 
 db.task(function* () {
 
